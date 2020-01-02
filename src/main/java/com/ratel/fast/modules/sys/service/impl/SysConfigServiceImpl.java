@@ -102,4 +102,11 @@ public class SysConfigServiceImpl extends ServiceImpl<SysConfigDao, SysConfigEnt
 			throw new RRException("获取参数失败");
 		}
 	}
+
+
+	@Override
+	public SysConfigEntity getByKey(String key) {
+		SysConfigEntity byKey = baseMapper.queryByKey(key);
+		return byKey;
+	}
 }

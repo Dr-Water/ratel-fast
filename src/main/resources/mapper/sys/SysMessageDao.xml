@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ratel.fast.modules.sys.dao.SysMessageDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.ratel.fast.modules.sys.entity.SysMessageEntity" id="sysMessageMap">
+        <result property="id" column="id"/>
+        <result property="key" column="key"/>
+        <result property="title" column="title"/>
+        <result property="content" column="content"/>
+        <result property="files" column="files"/>
+        <result property="img" column="img"/>
+        <result property="desc" column="desc"/>
+        <result property="status" column="status"/>
+        <result property="isDelete" column="is_delete"/>
+        <result property="createrName" column="creater_name"/>
+        <result property="createrId" column="creater_id"/>
+        <result property="createrTime" column="creater_time"/>
+        <result property="modifyName" column="modify_name"/>
+        <result property="modifyId" column="modify_id"/>
+        <result property="modifyTime" column="modify_time"/>
+    </resultMap>
+
+    <select id="selectByKey" parameterType="string" resultType="com.ratel.fast.modules.sys.entity.SysMessageEntity">
+        SELECT * FROM `sys_message` WHERE `key`=#{key} AND is_delete=0 AND status=1
+    </select>
+
+</mapper>

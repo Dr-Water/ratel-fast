@@ -51,5 +51,12 @@ public interface SysConfigService extends IService<SysConfigEntity> {
 	 * @param clazz  Object对象
 	 */
 	public <T> T getConfigObject(String key, Class<T> clazz);
-	
+
+    /**
+     * 通过key查询
+     * @param key
+     * @return
+     */
+	SysConfigEntity getByKey(String key);
+
 }

@@ -32,12 +32,13 @@ public class SysEmailServiceImpl implements SysEmailService {
 
 
     /**
-     * @param sysEmailEntity
-     * @param operation
+     * @param sysEmailEntity 发送邮件的实体
+     * @param operation  用于日志记录当前发送邮件的是什么操作
      */
     @Override
     public void sendEmail(SysEmailEntity sysEmailEntity, String operation) {
         Map<String, String> params = sysEmailEntity.getParams();
+        // 替换邮件模板中的一些字段
         if(params!=null){
             Set<String> keys = params.keySet();
             for (String key : keys) {

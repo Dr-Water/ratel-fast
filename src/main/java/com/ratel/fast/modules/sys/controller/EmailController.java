@@ -72,7 +72,7 @@ public class EmailController extends AbstractController {
         map.put("username", sysUserEntity.getUsername());
         map.put("param1","我是参数1");
         map.put("param2","我是参数2");
-        // 邮件授权码 kpzjwlmdmjisbdah
+        // 这里先写死了邮件的接收方
         SysEmailEntity emailEntity = new SysEmailEntity("ratelfu@163.com", sysMessageEntity.getTitle(), sysMessageEntity.getContent(), sysMessageEntity.getFiles(), null, "系统提醒", sysUserEntity.getUsername(), map);
         //3.调用邮件发送服务
         sysEmailService.sendEmail(emailEntity,"发送纯文本邮件");

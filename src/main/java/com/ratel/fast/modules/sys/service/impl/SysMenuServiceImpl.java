@@ -31,33 +31,28 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuDao, SysMenuEntity> i
 	private SysUserService sysUserService;
 	@Autowired
 	private SysRoleMenuService sysRoleMenuService;
-	
-	@Override
-	public List<SysMenuEntity> queryListParentId(Long parentId, List<Long> menuIdList) {
-		List<SysMenuEntity> menuList = queryListParentId(parentId);
-		if(menuIdList == null){
-			return menuList;
-		}
-		
-		List<SysMenuEntity> userMenuList = new ArrayList<>();
-		for(SysMenuEntity menu : menuList){
-			if(menuIdList.contains(menu.getMenuId())){
-				userMenuList.add(menu);
-			}
-		}
-		return userMenuList;
-	}
 
+
+
+	/**
+	 * 根据父菜单，查询子菜单
+	 * @param parentId 父菜单ID
+	 */
 	@Override
 	public List<SysMenuEntity> queryListParentId(Long parentId) {
 		return baseMapper.queryListParentId(parentId);
 	}
 
+	/**
+	 * 获取不包含按钮的菜单列表
+	 */
 	@Override
 	public List<SysMenuEntity> queryNotButtonList() {
 		return baseMapper.queryNotButtonList();
 	}
-
+	/**
+	 * 获取用户菜单列表
+	 */
 	@Override
 	public List<SysMenuEntity> getUserMenuList(Long userId) {
 		//系统管理员，拥有最高权限
@@ -65,7 +60,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuDao, SysMenuEntity> i
 			return getAllMenuList(null);
 		}
 		
-		//用户菜单列表
+		//当前登录用户拥有的所有的菜单列表的id集合
 		List<Long> menuIdList = sysUserService.queryAllMenuId(userId);
 		return getAllMenuList(menuIdList);
 	}
@@ -91,14 +86,18 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuDao, SysMenuEntity> i
 	}
 
 	/**
-	 * 递归
+	 * 递归查询子菜单
+	 * @param menuList   根菜单集合
+	 * @param menuIdList 当前登录用户拥有的所有的菜单列表的id集合
+	 * @return
 	 */
 	private List<SysMenuEntity> getMenuTreeList(List<SysMenuEntity> menuList, List<Long> menuIdList){
 		List<SysMenuEntity> subMenuList = new ArrayList<SysMenuEntity>();
 		
 		for(SysMenuEntity entity : menuList){
-			//目录
+			//如果是目录则进行递归调用查询下一级菜单
 			if(entity.getType() == Constant.MenuType.CATALOG.getValue()){
+			    //将查询到的子菜单放到list中
 				entity.setList(getMenuTreeList(queryListParentId(entity.getMenuId(), menuIdList), menuIdList));
 			}
 			subMenuList.add(entity);
@@ -106,4 +105,26 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuDao, SysMenuEntity> i
 		
 		return subMenuList;
 	}
+
+    /**
+     * 根据父菜单，查询子菜单
+     * @param parentId 父菜单ID
+     * @param menuIdList  当前登录用户拥有的所有的菜单列表的id集合
+     */
+    @Override
+    public List<SysMenuEntity> queryListParentId(Long parentId, List<Long> menuIdList) {
+        List<SysMenuEntity> menuList = queryListParentId(parentId);
+        if(menuIdList == null){
+            return menuList;
+        }
+
+        List<SysMenuEntity> userMenuList = new ArrayList<>();
+        //循环根据父菜单id查询出来的菜单集合 ，找到属于当前用户的菜单，并加到用户菜单的集合中
+        for(SysMenuEntity menu : menuList){
+            if(menuIdList.contains(menu.getMenuId())){
+                userMenuList.add(menu);
+            }
+        }
+        return userMenuList;
+    }
 }

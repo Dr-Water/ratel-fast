@@ -38,7 +38,7 @@ public class SysMenuController extends AbstractController {
 	private ShiroService shiroService;
 
 	/**
-	 * 导航菜单
+	 * 导航菜单： 获取当前登录用户有权限查看的所有菜单
 	 */
 	@GetMapping("/nav")
 	public R nav(){

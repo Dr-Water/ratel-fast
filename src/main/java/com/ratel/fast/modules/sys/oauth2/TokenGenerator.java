@@ -3,7 +3,6 @@
 package com.ratel.fast.modules.sys.oauth2;
 
 import com.ratel.fast.common.exception.RRException;
-import com.ratel.fast.common.exception.RRException;
 
 import java.security.MessageDigest;
 import java.util.UUID;

@@ -33,6 +33,12 @@ public class ShiroConfig {
         return securityManager;
     }
 
+    /**
+     * 这个bean的名字必须叫 shiroFilter ，否则启动的时候会报错
+     *  @Bean ("shiroFilter") 之后的括号可以不用写，spring默认方法名为的bean的名字
+     * @param securityManager
+     * @return
+     */
     @Bean("shiroFilter")
     public ShiroFilterFactoryBean shiroFilter(SecurityManager securityManager) {
         ShiroFilterFactoryBean shiroFilter = new ShiroFilterFactoryBean();
@@ -40,6 +46,7 @@ public class ShiroConfig {
 
         //oauth过滤
         Map<String, Filter> filters = new HashMap<>();
+        //添加自定义过滤器
         filters.put("oauth2", new OAuth2Filter());
         shiroFilter.setFilters(filters);
 
@@ -54,6 +61,7 @@ public class ShiroConfig {
         filterMap.put("/swagger-resources/**", "anon");
         filterMap.put("/captcha.jpg", "anon");
         filterMap.put("/aaa.txt", "anon");
+        //使用自定义过滤器拦截除上边以外的所有请求
         filterMap.put("/**", "oauth2");
         shiroFilter.setFilterChainDefinitionMap(filterMap);
 

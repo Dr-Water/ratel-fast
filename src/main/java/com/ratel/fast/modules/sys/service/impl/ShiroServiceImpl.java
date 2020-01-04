@@ -33,6 +33,11 @@ public class ShiroServiceImpl implements ShiroService {
     @Autowired
     private SysUserTokenDao sysUserTokenDao;
 
+    /**
+     * 获取用户权限列表
+     * @param userId
+     * @return
+     */
     @Override
     public Set<String> getUserPermissions(long userId) {
         List<String> permsList;

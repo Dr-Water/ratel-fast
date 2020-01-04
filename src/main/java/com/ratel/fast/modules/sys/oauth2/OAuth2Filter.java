@@ -5,8 +5,6 @@ package com.ratel.fast.modules.sys.oauth2;
 import com.google.gson.Gson;
 import com.ratel.fast.common.utils.HttpContextUtils;
 import com.ratel.fast.common.utils.R;
-import com.ratel.fast.common.utils.HttpContextUtils;
-import com.ratel.fast.common.utils.R;
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.HttpStatus;
 import org.apache.shiro.authc.AuthenticationException;
@@ -39,6 +37,14 @@ public class OAuth2Filter extends AuthenticatingFilter {
         return new OAuth2Token(token);
     }
 
+    /**
+     * 判断用户是否已经登录，
+     *      如果是options的请求则放行，否则进行调用onAccessDenied进行token认证流程
+     * @param request
+     * @param response
+     * @param mappedValue
+     * @return
+     */
     @Override
     protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
         if(((HttpServletRequest) request).getMethod().equals(RequestMethod.OPTIONS.name())){

@@ -33,6 +33,7 @@ public class OAuth2Realm extends AuthorizingRealm {
 
     /**
      * 授权(验证权限时调用)
+     * 前端在请求带@RequiresPermissions注解 注解的方法时会调用 doGetAuthorizationInfo 这个方法
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
@@ -49,6 +50,7 @@ public class OAuth2Realm extends AuthorizingRealm {
 
     /**
      * 认证(登录时调用)
+     * 每次请求的时候都会调用这个方法验证token是否失效和用户是否被锁定
      */
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {

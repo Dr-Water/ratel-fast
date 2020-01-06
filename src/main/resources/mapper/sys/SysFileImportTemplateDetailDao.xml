@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ratel.fast.modules.sys.dao.SysFileImportTemplateDetailDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.ratel.fast.modules.sys.entity.SysFileImportTemplateDetailEntity" id="sysFileImportTemplateDetailMap">
+        <result property="id" column="id"/>
+        <result property="templateId" column="template_id"/>
+        <result property="templateName" column="template_name"/>
+        <result property="fieldName" column="field_name"/>
+        <result property="columnName" column="column_name"/>
+        <result property="fieldType" column="field_type"/>
+        <result property="fieldFormat" column="field_format"/>
+        <result property="orderBy" column="order_by"/>
+        <result property="attr1" column="attr1"/>
+        <result property="attr2" column="attr2"/>
+        <result property="attr3" column="attr3"/>
+        <result property="attr4" column="attr4"/>
+        <result property="createrItcode" column="creater_itcode"/>
+        <result property="isDelete" column="is_delete"/>
+        <result property="orgName" column="org_name"/>
+        <result property="orgId" column="org_id"/>
+        <result property="createrName" column="creater_name"/>
+        <result property="createrId" column="creater_id"/>
+        <result property="createrTime" column="creater_time"/>
+        <result property="modifyName" column="modify_name"/>
+        <result property="modifyId" column="modify_id"/>
+        <result property="modifyTime" column="modify_time"/>
+    </resultMap>
+
+
+</mapper>

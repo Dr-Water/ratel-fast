@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ratel.fast.modules.sys.dao.SysFileImportTemplateDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.ratel.fast.modules.sys.entity.SysFileImportTemplateEntity" id="sysFileImportTemplateMap">
+        <result property="id" column="id"/>
+        <result property="module" column="module"/>
+        <result property="templateCode" column="template_code"/>
+        <result property="templateDesc" column="template_desc"/>
+        <result property="limitFormat" column="limit_format"/>
+        <result property="limitSize" column="limit_size"/>
+        <result property="attr1" column="attr1"/>
+        <result property="attr2" column="attr2"/>
+        <result property="attr3" column="attr3"/>
+        <result property="attr4" column="attr4"/>
+        <result property="createrItcode" column="creater_itcode"/>
+        <result property="isDelete" column="is_delete"/>
+        <result property="orgName" column="org_name"/>
+        <result property="orgId" column="org_id"/>
+        <result property="createrName" column="creater_name"/>
+        <result property="createrId" column="creater_id"/>
+        <result property="createrTime" column="creater_time"/>
+        <result property="modifyName" column="modify_name"/>
+        <result property="modifyId" column="modify_id"/>
+        <result property="modifyTime" column="modify_time"/>
+    </resultMap>
+
+    <select id="getCountByTem" parameterType="string" resultType="int">
+        SELECT COUNT(*) FROM sys_file_import_template WHERE template_code=#{templateName}
+    </select>
+
+
+</mapper>

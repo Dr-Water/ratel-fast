@@ -47,3 +47,6 @@ spring:
 #      url: jdbc:postgresql://localhost:5432/renren_security
 #      username: renren
 #      password: 123456
+import:
+    localFilePath: D:\temp\static\
+    zipDownloadBasePath: D:\temp\download\

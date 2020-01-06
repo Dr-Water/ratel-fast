@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ratel.fast.modules.sys.dao.SysFileImportDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.ratel.fast.modules.sys.entity.SysFileImportEntity" id="sysFileImportMap">
+        <result property="id" column="id"/>
+        <result property="batchNo" column="batch_no"/>
+        <result property="templateName" column="template_name"/>
+        <result property="fileName" column="file_name"/>
+        <result property="orginFileName" column="orgin_file_name"/>
+        <result property="filePath" column="file_path"/>
+        <result property="fileExt" column="file_ext"/>
+        <result property="fileSize" column="file_size"/>
+        <result property="processStatus" column="process_status"/>
+        <result property="uploadStatus" column="upload_status"/>
+        <result property="createrItcode" column="creater_itcode"/>
+        <result property="attr1" column="attr1"/>
+        <result property="attr2" column="attr2"/>
+        <result property="attr3" column="attr3"/>
+        <result property="attr4" column="attr4"/>
+        <result property="isDelete" column="is_delete"/>
+        <result property="orgName" column="org_name"/>
+        <result property="orgId" column="org_id"/>
+        <result property="createrName" column="creater_name"/>
+        <result property="createrId" column="creater_id"/>
+        <result property="createrTime" column="creater_time"/>
+        <result property="modifyName" column="modify_name"/>
+        <result property="modifyId" column="modify_id"/>
+        <result property="modifyTime" column="modify_time"/>
+    </resultMap>
+
+    <update id="updateAttr1ById">
+        UPDATE sys_file_import SET attr1=#{projectId},attr2=#{uploadDate},attr3=#{uploadName} WHERE id=#{importFileId} AND template_name=#{template}
+    </update>
+
+    <select id="getFileByInfo" resultType="com.ratel.fast.modules.sys.entity.SysFileImportEntity">
+        SELECT * FROM sys_file_import WHERE template_name=#{temp} AND attr1=#{id}
+    </select>
+
+    <update id="delFileById">
+        UPDATE sys_file_import SET attr1=#{attr1},attr2=#{attr2},attr3=#{attr3} WHERE id=#{id}
+    </update>
+
+    <select id="getSolutionFileById" parameterType="int" resultType="int">
+        SELECT id FROM `sys_file_import` WHERE `template_name`='solutionUploadName' AND `attr1`=#{solutionId} AND `is_delete`='0'
+    </select>
+
+    <select id="getSolutionAduioFileById" parameterType="int" resultType="int">
+        SELECT id FROM `sys_file_import` WHERE `template_name`='solutionAudioUploadList' AND `attr1`=#{solutionId} AND `is_delete`='0'
+    </select>
+</mapper>

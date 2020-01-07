@@ -206,4 +206,14 @@ public class TestController extends AbstractController {
     public void t17( @PathVariable String id ){
         logger.info("多个@PathVariable接收的参数是"+id );
     }
+
+    /**
+     *
+     * @param id
+     */
+    @RequestMapping("/t18")
+    public void t18( @RequestPart String id ){
+        logger.info("多个@PathVariable接收的参数是"+id );
+    }
+
 }

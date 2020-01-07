@@ -50,48 +50,85 @@ public class SysFileImportController   extends AbstractController {
     private String zipDownloadBasePath;
 
 
+    /**
+     * @param files 文件数组
+     * @param templateName 上传的文件所属的模块
+     * @return
+     * @throws IOException
+     */
     @PostMapping("/upload/{templateName}")
-    public R uploadImage(@RequestParam("file") MultipartFile[] files, @PathVariable("templateName") String templateName) throws IOException {
+    public R uploadfiles(@RequestParam("file") MultipartFile[] files, @PathVariable("templateName") String templateName) throws IOException {
         SysUserEntity sysUserEntity = getUser();
         ArrayList<String> fileIds = new ArrayList<>();
         String filePath=localFilePath+templateName+ File.separator;
-        //保存图片到服务器
+        //循环保存文件到服务器
         for (MultipartFile file : files) {
-            String picName = UUID.randomUUID().toString().replace("-","");
+            String fileName = UUID.randomUUID().toString().replace("-","");
             String originalFilename = file.getOriginalFilename();
             String extName = originalFilename.substring(originalFilename.lastIndexOf("."));
-            file.transferTo(new File(filePath+picName+extName));
+            //将文件上传到指定位置（关键一步）
+            file.transferTo(new File(filePath+fileName+extName));
             SysFileImportEntity sysFileImportEntity=new SysFileImportEntity();
             sysFileImportEntity.setFileExt(extName);
-            sysFileImportEntity.setFilePath(filePath+picName+extName);
-            sysFileImportEntity.setFileName(picName);
+            sysFileImportEntity.setFilePath(filePath+fileName+extName);
+            sysFileImportEntity.setFileName(fileName);
             sysFileImportEntity.setFileSize(file.getSize()+"");
             sysFileImportEntity.setTemplateName(templateName);
             sysFileImportEntity.setUploadStatus("1");
             sysFileImportEntity.setUploadStatus("1");
-           // sysFileImportEntity.setCreaterId(sysUserEntity.getUserId().intValue());
-            //sysFileImportEntity.setCreaterItcode(sysUserEntity.getUsername());
-           // sysFileImportEntity.setCreaterName(sysUserEntity.getRealName());
+            sysFileImportEntity.setCreaterId(sysUserEntity.getUserId().intValue());
+            sysFileImportEntity.setCreaterItcode(sysUserEntity.getUsername());
+            sysFileImportEntity.setCreaterName(sysUserEntity.getUsername());
             sysFileImportEntity.setOrginFileName(originalFilename);
-            //sysFileImportService.insert(sysFileImportEntity);
+           sysFileImportService.save(sysFileImportEntity);
             fileIds.add(sysFileImportEntity.getId()+"");
         }
-        Map<String,Object> paramMap=new HashMap<String,Object>();
-        paramMap.put("fileIds",fileIds);
-        R rst=fileImportService.process(paramMap, templateName);
-        String data = rst.get("data").toString();
-        if(data.contains("error")){
-            return R.error("请填写正确的itcode");
-        }
-        //返回图片地址
-        return rst.put("fileids", fileIds);
+        //返回文件的id
+        return R.ok().put("fileids", fileIds);
+    }
 
+
+    /**
+     * @param files 文件数组
+     * @param templateName 上传的文件所属的模块
+     * @return
+     * @throws IOException
+     */
+    @PostMapping("/upload2/{templateName}")
+    public R uploadfiles2(@RequestPart("file") MultipartFile[] files, @PathVariable("templateName") String templateName) throws IOException {
+        SysUserEntity sysUserEntity = getUser();
+        ArrayList<String> fileIds = new ArrayList<>();
+        String filePath=localFilePath+templateName+ File.separator;
+        //循环保存文件到服务器
+        for (MultipartFile file : files) {
+            String fileName = UUID.randomUUID().toString().replace("-","");
+            String originalFilename = file.getOriginalFilename();
+            String extName = originalFilename.substring(originalFilename.lastIndexOf("."));
+            //将文件上传到指定位置（关键一步）
+            file.transferTo(new File(filePath+fileName+extName));
+            SysFileImportEntity sysFileImportEntity=new SysFileImportEntity();
+            sysFileImportEntity.setFileExt(extName);
+            sysFileImportEntity.setFilePath(filePath+fileName+extName);
+            sysFileImportEntity.setFileName(fileName);
+            sysFileImportEntity.setFileSize(file.getSize()+"");
+            sysFileImportEntity.setTemplateName(templateName);
+            sysFileImportEntity.setUploadStatus("1");
+            sysFileImportEntity.setUploadStatus("1");
+            sysFileImportEntity.setCreaterId(sysUserEntity.getUserId().intValue());
+            sysFileImportEntity.setCreaterItcode(sysUserEntity.getUsername());
+            sysFileImportEntity.setCreaterName(sysUserEntity.getUsername());
+            sysFileImportEntity.setOrginFileName(originalFilename);
+            sysFileImportService.save(sysFileImportEntity);
+            fileIds.add(sysFileImportEntity.getId()+"");
+        }
+        //返回文件的id
+        return R.ok().put("fileids", fileIds);
     }
 
     @RequestMapping("/downloadFile/{id}")
     public ResponseEntity<InputStreamResource> downFile(@PathVariable("id") String id) throws Exception{
-        //SysFileImportEntity sysFileImportEntity=sysFileImportService.selectById(id);
-        SysFileImportEntity sysFileImportEntity=new SysFileImportEntity();
+        SysFileImportEntity sysFileImportEntity=sysFileImportService.getById(id);
+       // SysFileImportEntity sysFileImportEntity=new SysFileImportEntity();
         //文件下载统计
 //        sysStatisticalDataService.setStatisticalFileData(sysFileImportEntity);
         if(sysFileImportEntity!=null){
